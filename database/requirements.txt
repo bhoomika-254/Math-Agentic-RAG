@@ -1,0 +1,15 @@
+# Dataset loading and processing
+datasets==2.18.0
+pandas
+
+# For embedding generation
+sentence-transformers==2.2.2
+
+# For Qdrant client (VectorDB)
+qdrant-client==1.8.0
+
+# For environment variables
+python-dotenv
+
+# For progress tracking
+tqdm
