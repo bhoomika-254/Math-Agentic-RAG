@@ -67,7 +67,7 @@ async def search_math_problems(
         kb_results = await qdrant_service.search_similar(validated_question)
         
         # Step 3: Determine if we need web search fallback
-        confidence_threshold = 0.5
+        confidence_threshold = 0.8  # Increased from 0.5 to 0.8 for higher confidence requirement
         best_score = kb_results[0].score if kb_results else 0.0
         
         if best_score >= confidence_threshold:

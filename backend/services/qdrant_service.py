@@ -32,12 +32,19 @@ class QdrantService:
     def _initialize(self):
         """Initialize Qdrant manager and embedding generator."""
         try:
-            # Qdrant configuration (matching database/ingest.py)
+            import os
+            from dotenv import load_dotenv
+            load_dotenv()
+            
+            # Qdrant configuration from environment variables
             qdrant_config = {
-                'url': 'https://7c49e9a8-f84b-4cc8-9e14-bbffdc2e68ad.us-east4-0.gcp.cloud.qdrant.io:6333',
-                'api_key': 'aFrfsC3xnXVgMEjClC3VNgY2Hgp0f6A5Zd30UM5yQJx4SkEPgn4xSw',
-                'collection_name': 'math_problems'
+                'url': os.getenv('QDRANT_URL'),
+                'api_key': os.getenv('QDRANT_API_KEY'),
+                'collection_name': os.getenv('QDRANT_COLLECTION', 'nuinamath')
             }
+            
+            if not qdrant_config['url'] or not qdrant_config['api_key']:
+                raise ValueError("QDRANT_URL and QDRANT_API_KEY must be set in environment variables")
             
             self.qdrant_manager = QdrantManager(
                 url=qdrant_config['url'],
@@ -68,12 +75,14 @@ class QdrantService:
             return []
         
         try:
+            import os
             # Generate embedding for the question
             query_embedding = self.embedding_generator.embed_text(question)
             
             # Search in Qdrant
+            collection_name = os.getenv('QDRANT_COLLECTION', 'nuinamath')
             results = self.qdrant_manager.search_similar(
-                collection_name='math_problems',
+                collection_name=collection_name,
                 query_vector=query_embedding,
                 limit=limit
             )
@@ -132,7 +141,8 @@ class QdrantService:
                 request_data=request_data,
                 response_data=response_data,
                 response_time_ms=response_time_ms,
-                source=source
+                source=source,
+                status_code=200  # Default to 200 for successful responses
             )
             
             # TODO: Store log entry in Qdrant analytics collection
