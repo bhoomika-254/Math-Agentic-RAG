@@ -77,11 +77,8 @@ Add the following variables to your `.env` file:
 GEMINI_API_KEY=your_gemini_api_key_here
 QDRANT_URL=your_qdrant_cluster_url
 QDRANT_API_KEY=your_qdrant_api_key
+QDRANT_COLLECTION=collection_name
 
-# Optional configurations
-BACKEND_PORT=8000
-FRONTEND_PORT=3000
-LOG_LEVEL=INFO
 ```
 
 ### Backend Setup
@@ -179,16 +176,6 @@ The backend provides RESTful APIs accessible at `http://localhost:8000/docs` (Sw
 - `POST /api/feedback` - Submit user feedback on solutions
 - `GET /api/health` - Health check endpoint
 
-### Example API Usage
-
-```bash
-curl -X POST "http://localhost:8000/api/search" \
-     -H "Content-Type: application/json" \
-     -d '{"question": "Find the derivative of f(x) = 3x^2 + 2x - 1"}'
-```
-
-## 🔧 Configuration
-
 ### System Configuration
 
 The system uses a three-tier approach for solving math problems:
@@ -229,72 +216,12 @@ Math-Agentic-RAG/
 └── README.md             # This file
 ```
 
-### Running Tests
-
-```bash
-# Backend tests
-cd backend
-python -m pytest
-
-# Frontend tests  
-cd frontend
-npm test
-```
-
-### Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes with proper tests
-4. Commit your changes: `git commit -am 'Add feature'`
-5. Push to the branch: `git push origin feature-name`
-6. Submit a pull request
-
-## 📊 Performance & Analytics
-
-The system includes comprehensive analytics:
-
-- **Response time tracking**
-- **Confidence score monitoring** 
-- **Source usage statistics**
-- **User feedback collection**
-- **Quality assessment metrics**
-
 ## 🔒 Security & Guardrails
 
 - **Input validation** prevents malicious content
 - **Output sanitization** ensures safe responses
 - **Rate limiting** prevents abuse
 - **API key protection** secures external services
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Backend won't start:**
-- Check that all environment variables are set
-- Verify Python version (3.11+)
-- Ensure virtual environment is activated
-
-**Frontend math not rendering:**
-- Check browser console for KaTeX errors
-- Verify mathematical expressions are properly formatted
-- Clear browser cache
-
-**No search results:**
-- Verify Qdrant connection in backend logs
-- Check if database has been ingested with sample data
-- Confirm API keys are valid
-
-### Getting Help
-
-- Check the [Issues](https://github.com/bhoomika-254/Math-Agentic-RAG/issues) page
-- Review the API documentation at `/docs`
-- Check backend logs for detailed error information
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Acknowledgments
 
@@ -306,4 +233,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ for the mathematics education community**
+**Built with ❤️ by bhoomi**
