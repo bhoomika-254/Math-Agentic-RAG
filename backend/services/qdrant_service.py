@@ -34,7 +34,10 @@ class QdrantService:
         try:
             import os
             from dotenv import load_dotenv
-            load_dotenv()
+            
+            # Load .env from project root (3 levels up from services)
+            env_path = Path(__file__).parent.parent.parent / '.env'
+            load_dotenv(env_path)
             
             # Qdrant configuration from environment variables
             qdrant_config = {

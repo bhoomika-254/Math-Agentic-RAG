@@ -36,20 +36,38 @@ class MCPService:
             # Simulate web search delay
             await asyncio.sleep(0.5)
             
-            # Mock response based on question type
+            # Mock response based on question type with realistic confidence scoring
+            confidence_score = 0.6  # Default confidence
+            
             if any(keyword in question.lower() for keyword in ['derivative', 'integral', 'calculus']):
                 answer = f"Based on web search: This appears to be a calculus problem. {question} involves applying standard calculus techniques. Consider using the fundamental theorem of calculus or integration by parts."
+                confidence_score = 0.75  # Higher confidence for calculus
             elif any(keyword in question.lower() for keyword in ['algebra', 'equation', 'solve']):
                 answer = f"Based on web search: This is an algebraic problem. {question} can be solved using algebraic manipulation and equation solving techniques."
+                confidence_score = 0.7  # Good confidence for algebra
             elif any(keyword in question.lower() for keyword in ['geometry', 'triangle', 'circle']):
                 answer = f"Based on web search: This is a geometry problem. {question} involves geometric principles and may require knowledge of shapes, areas, or angles."
+                confidence_score = 0.65  # Moderate confidence for geometry
+            elif any(keyword in question.lower() for keyword in ['statistics', 'probability', 'mean', 'standard deviation']):
+                answer = f"Based on web search: This is a statistics/probability problem. {question} requires understanding of statistical concepts and may involve data analysis."
+                confidence_score = 0.72  # Good confidence for stats
             else:
                 answer = f"Based on web search: {question} is a mathematical problem that may require breaking down into smaller steps and applying relevant mathematical concepts."
+                confidence_score = 0.55  # Lower confidence for unknown types
+            
+            # Adjust confidence based on question length and complexity
+            if len(question) > 100:
+                confidence_score += 0.05  # Slightly higher for detailed questions
+            if '=' in question and any(op in question for op in ['+', '-', '*', '/', '^']):
+                confidence_score += 0.1   # Higher for equations with operators
+            
+            # Cap confidence to ensure it's below KB threshold for testing fallback
+            confidence_score = min(confidence_score, 0.79)  # Always below 0.8 threshold
             
             result = {
                 "answer": answer,
                 "source": "web_search",
-                "confidence": 0.7,
+                "confidence": confidence_score,
                 "search_query": question,
                 "results_count": 1
             }

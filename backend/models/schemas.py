@@ -29,7 +29,7 @@ class SearchResponse(BaseModel):
     """Response model for search endpoint."""
     response_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     final_answer: str = Field(..., description="The main answer to the question")
-    source: Literal["KB", "MCP"] = Field(..., description="Source of the answer")
+    source: Literal["KB", "MCP", "Gemini"] = Field(..., description="Source of the answer")
     explanation: Optional[str] = Field(None, description="Optional explanation")
     results: List[SearchResult] = Field(default_factory=list, description="Detailed search results")
     metadata: dict = Field(default_factory=dict, description="Additional metadata")
@@ -50,7 +50,7 @@ class APILogEntry(BaseModel):
     request_data: dict = Field(..., description="Request payload")
     response_data: dict = Field(..., description="Response payload")
     response_time_ms: float = Field(..., description="Response time in milliseconds")
-    source: Literal["KB", "MCP"] = Field(..., description="Source of the answer")
+    source: Literal["KB", "MCP", "Gemini"] = Field(..., description="Source of the answer")
     feedback_received: bool = Field(default=False, description="Whether feedback was received")
     status_code: int = Field(..., description="HTTP status code")
 
