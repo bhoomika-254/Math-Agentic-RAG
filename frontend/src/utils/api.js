@@ -1,6 +1,6 @@
 // API configuration
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-huggingface-space-url.hf.space'  // Replace with actual HF Space URL
+  ? 'https://bhoomika19-math-routing-agent.hf.space'  // Replace with actual HF Space URL
   : 'http://localhost:8000';
 
 // API endpoints
